@@ -14,9 +14,6 @@ app.use(cors({
 // Middleware to parse incoming requests with JSON payloads
 app.use(bodyParser.json());
 
-// Serve static files from the 'frontend' directory
-app.use(express.static(path.join(__dirname, '../frontend')));
-
 const bcrypt = require('bcryptjs'); // For hashing passwords
 const session = require('express-session'); // For session management
 
@@ -45,14 +42,11 @@ mongoose.connect(mongoURI, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error('MongoDB connection error:', err));
 
-// Serve static files from the 'frontend' directory
-app.use(express.static(path.join(__dirname, '../frontend')));
 
 // Define the route for the root URL
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+    res.send('Backend server is running');
 });
-
 
 // User model
 const userSchema = new mongoose.Schema({
@@ -281,5 +275,3 @@ app.get('/load-budget', async (req, res) => {
         res.status(500).json({ error: 'Failed to load budget' });
     }
 });
-
-
